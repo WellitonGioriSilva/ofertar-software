@@ -34,10 +34,10 @@ CREATE TABLE Tither (
     isActive BOOLEAN,
     company VARCHAR(100),
     name VARCHAR(100),
-    referrer_id INT,
+    spouse_id INT,
     profession_id INT,
     address_id INT,
-    FOREIGN KEY (referrer_id) REFERENCES Tither (id) ON DELETE SET NULL,
+    FOREIGN KEY (spouse_id) REFERENCES Tither (id) ON DELETE SET NULL,
     FOREIGN KEY (profession_id) REFERENCES Profession (id) ON DELETE SET NULL,
     FOREIGN KEY (address_id) REFERENCES Address (id) ON DELETE RESTRICT
 );

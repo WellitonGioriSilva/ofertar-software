@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "YATecldha40DLwVdR8GORUtH2OgO8r1a1JoQDOyF0vw=",
+  "Source": "api-ofertar",
+  "BasePath": "_content/api-ofertar",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
