@@ -1,8 +1,13 @@
 CREATE DATABASE db_oferta;
 USE db_oferta;
 
+CREATE TABLE Role (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50)
+);
+
 CREATE TABLE User (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100),
     passwordHash VARCHAR(255),
     name VARCHAR(100),
@@ -10,8 +15,16 @@ CREATE TABLE User (
     UNIQUE (email, name)
 );
 
+CREATE TABLE UserRole (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    role_id INT,
+    FOREIGN KEY (user_id) REFERENCES User (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES Role (id) ON DELETE CASCADE
+);
+
 CREATE TABLE Address (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     street VARCHAR(100),
     number VARCHAR(10),
     zipCode VARCHAR(8),
@@ -20,13 +33,13 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE Profession (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(10),
     name VARCHAR(100)
 );
 
 CREATE TABLE Tither (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     phone VARCHAR(11),
     email VARCHAR(100),
     birthDate DATE,
@@ -43,7 +56,7 @@ CREATE TABLE Tither (
 );
 
 CREATE TABLE Tithe (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     offeringDate DATE,
     amount DOUBLE,
     paymentMethod CHAR(1),
