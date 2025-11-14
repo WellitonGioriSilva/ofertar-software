@@ -12,9 +12,11 @@ using System.Security.Claims;
 
 namespace api_ofertar.Controllers
 {
+    // Preciso colocar para pegar tither da igreja do usuario logado
+
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Policy = "ActiveChurch")]
     public class TitherController : ControllerBase
     {
         private readonly TitherService _titherService;
@@ -60,7 +62,10 @@ namespace api_ofertar.Controllers
         {
             try
             {
-                var tithers = await _titherService.GetAllTithersAsync();
+                var churchId = GetChurchIdFromJwt();
+                if (!churchId.HasValue)
+                    return BadRequest(ApiResponse<object>.Fail("Church ID not found in JWT"));
+                var tithers = await _titherService.GetAllTithersAsync(churchId.Value);
                 return Ok(ApiResponse<List<Tither>>.Ok(tithers, take: tithers.Count, offset: 0, total: tithers.Count));
             }
             catch (Exception ex)

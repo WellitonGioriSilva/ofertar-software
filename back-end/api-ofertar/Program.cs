@@ -77,6 +77,11 @@ builder.Services.AddScoped<ChurchService>();
 builder.Services.AddScoped<TitherService>();
 // Register JwtHelper
 builder.Services.AddSingleton<JwtHelper>();
+builder.Services.AddSingleton<EmailHelper>(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    return new EmailHelper(config);
+});
 
 // Configure Authentication - JWT
 var jwtKey = builder.Configuration["Jwt:Key"];

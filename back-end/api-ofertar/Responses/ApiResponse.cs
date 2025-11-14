@@ -24,7 +24,7 @@ namespace api_ofertar.Responses
             Total = total;
         }
 
-        public static ApiResponse<T> Ok(T? data, string message = "Operação realizada com sucesso.", int? take = null, int? offset = null, int? total = null)
+        public static ApiResponse<T> Ok(T? data, string message = "Operation successfully completed.", int? take = null, int? offset = null, int? total = null)
             => new(true, message, data, take, offset, total);
 
         public static ApiResponse<T> Fail(string message)

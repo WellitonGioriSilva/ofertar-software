@@ -16,11 +16,13 @@ namespace api_ofertar.Services
     {
         private readonly DataBaseConfig _dbContext;
         private readonly JwtHelper _jwtHelper;
+        private readonly EmailHelper _emailHelper;
 
-        public UserService(DataBaseConfig dbContext, JwtHelper jwtHelper)
+        public UserService(DataBaseConfig dbContext, JwtHelper jwtHelper, EmailHelper emailHelper)
         {
             _dbContext = dbContext;
             _jwtHelper = jwtHelper;
+            _emailHelper = emailHelper;
         }
 
         public async Task<List<UserResponseDTO>> GetAllUsersAsync(string? filter = null)
@@ -181,6 +183,29 @@ namespace api_ofertar.Services
 
             var roles = user.UserRoles.Select(ur => ur.Role?.Name ?? "").ToList();
             return _jwtHelper.GenerateJwtToken(user.Id, user.Email, roles, user.ChurchId);
+        }
+
+        public async Task SendRecoveryTokenAsync(UserPasswordRecoveryDTO recoveryDTO)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == recoveryDTO.Email);
+            if (user == null)
+                throw new KeyNotFoundException($"User with email {recoveryDTO.Email} not found.");
+
+            user.RecoveryToken = _jwtHelper.GenerateJwtToken(user.Id, user.Email, null, null);
+            await _dbContext.SaveChangesAsync();
+
+            _emailHelper.SendEmailRecovery(user.Email, user.RecoveryToken);
+        }
+
+        public async Task ResetPasswordAsync(UserPasswordResetDTO resetDTO)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.RecoveryToken == resetDTO.ResetToken);
+            if (user == null)
+                throw new KeyNotFoundException("Invalid recovery token.");
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(resetDTO.NewPassword);
+            user.RecoveryToken = null;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

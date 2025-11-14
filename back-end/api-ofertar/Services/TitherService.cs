@@ -18,12 +18,13 @@ namespace api_ofertar.Services
             _dbContext = dbContext;
         }
 
-        public async Task<List<Tither>> GetAllTithersAsync()
+        public async Task<List<Tither>> GetAllTithersAsync(int churchId)
         {
             return await _dbContext.Tithers
                 .Include(t => t.Profession)
                 .Include(t => t.Address)
                 .Include(t => t.Church)
+                .Where(t => t.ChurchId == churchId)
                 .ToListAsync();
         }
 

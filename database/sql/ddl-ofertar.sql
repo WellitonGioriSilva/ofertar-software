@@ -17,7 +17,7 @@ CREATE TABLE User (
     email VARCHAR(100),
     passwordHash VARCHAR(255),
     name VARCHAR(100),
-    recoveryToken VARCHAR(255),
+    recoveryToken VARCHAR(500),
     church_id INT,
     FOREIGN KEY (church_id) REFERENCES Church (id) ON DELETE SET NULL,
     UNIQUE (email, name)

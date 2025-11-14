@@ -13,7 +13,6 @@ namespace api_ofertar.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     [Authorize(Policy = "ActiveChurch")]
     public class ChurchController : ControllerBase
     {

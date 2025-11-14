@@ -15,6 +15,7 @@ namespace api_ofertar.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "ActiveChurch")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
@@ -33,6 +34,8 @@ namespace api_ofertar.Controllers
             return null;
         }
 
+        // Routes
+        
         [HttpGet]
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<ApiResponse<List<UserResponseDTO>>>> GetUsers()
@@ -145,6 +148,50 @@ namespace api_ofertar.Controllers
             catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized(ApiResponse<string>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
+        }
+
+        [HttpPost("recover-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResponse<object>>> RecoverPassword([FromBody] UserPasswordRecoveryDTO recoveryDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid recovery data"));
+
+                await _userService.SendRecoveryTokenAsync(recoveryDto);
+                return Ok(ApiResponse<object>.Ok(null, "Recovery token sent successfully."));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ApiResponse<object>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
+        }
+
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResponse<object>>> ResetPassword([FromBody] UserPasswordResetDTO resetDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid reset data"));
+
+                await _userService.ResetPasswordAsync(resetDto);
+                return Ok(ApiResponse<object>.Ok(null, "Password reset successfully."));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ApiResponse<object>.Fail(ex.Message));
             }
             catch (Exception ex)
             {

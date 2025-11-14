@@ -52,7 +52,7 @@ namespace api_ofertar.DTOs
         public string Password {get; set;} = String.Empty;
     }
 
-    public class UserPasswordRecovery
+    public class UserPasswordRecoveryDTO
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
