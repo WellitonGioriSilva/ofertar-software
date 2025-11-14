@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api_ofertar.DTOs;
+using api_ofertar.DTOs.Responses;
 using api_ofertar.Entities;
 using api_ofertar.Responses;
 using api_ofertar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace api_ofertar.Controllers
 {
@@ -20,45 +23,133 @@ namespace api_ofertar.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        private int? GetChurchIdFromJwt()
         {
-            var users = await _userService.GetAllUsersAsync(null);
-            return Ok(ApiResponse<List<User>>.Ok(users));
+            var churchIdClaim = User.FindFirst("churchId");
+            if (churchIdClaim != null && int.TryParse(churchIdClaim.Value, out var churchId))
+            {
+                return churchId;
+            }
+            return null;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<ApiResponse<List<UserResponseDTO>>>> GetUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsersAsync(null);
+                return Ok(ApiResponse<List<UserResponseDTO>>.Ok(users, take: users.Count, offset: 0, total: users.Count));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<ActionResult<ApiResponse<UserResponseDTO>>> GetUserById(int id)
         {
-            var user = new User { Id = id, Name = "Alice", Email = "alice@example.com" };
-            return Ok(ApiResponse<User>.Ok(user));
+            try
+            {
+                var user = await _userService.GetUserByIdAsync(id);
+                return Ok(ApiResponse<UserResponseDTO>.Ok(user));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ApiResponse<object>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO userDto)
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<ApiResponse<UserResponseDTO>>> CreateUser([FromBody] UserCreateDTO userDto)
         {
-            var user = new User
+            try
             {
-                Name = userDto.Name,
-                Email = userDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
-            };
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid user data"));
 
-            await _userService.CreateUserAsync(user, userDto.Roles);
-            return Ok(ApiResponse<User>.Ok(user, "User created successfully."));
+                int? churchId = null;
+
+                // If churchId is not provided in DTO, try to get it from JWT
+                if (!userDto.ChurchId.HasValue)
+                {
+                    churchId = GetChurchIdFromJwt();
+                }
+                else
+                {
+                    churchId = userDto.ChurchId;
+                }
+
+                var result = await _userService.CreateUserAsync(userDto, userDto.Roles ?? new List<UserRoleCreateDTO>(), churchId);
+                return CreatedAtAction(nameof(GetUserById), new { id = result.Id }, ApiResponse<UserResponseDTO>.Ok(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userDto)
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<UserResponseDTO>>> UpdateUser(int id, [FromBody] UserUpdateDTO userDto)
         {
-            var user = new User
+            try
             {
-                Id = id,
-                Name = userDto.Name,
-                Email = userDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
-            };
-            return Ok(ApiResponse<User>.Ok(user, "User updated successfully."));
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid user data"));
+
+                int? churchId = null;
+
+                // If churchId is not provided in DTO, try to get it from JWT
+                if (!userDto.ChurchId.HasValue)
+                {
+                    churchId = GetChurchIdFromJwt();
+                }
+                else
+                {
+                    churchId = userDto.ChurchId;
+                }
+
+                var result = await _userService.UpdateUserAsync(id, userDto, userDto.Roles ?? new List<UserRoleCreateDTO>(), churchId);
+                return Ok(ApiResponse<UserResponseDTO>.Ok(result));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ApiResponse<object>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] UserLoginDTO loginDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid login data"));
+
+                var token = await _userService.LoginUserAsync(loginDto.Email, loginDto.Password);
+                return Ok(ApiResponse<string>.Ok(token, "Login successful."));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ApiResponse<string>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
         }
     }
 }

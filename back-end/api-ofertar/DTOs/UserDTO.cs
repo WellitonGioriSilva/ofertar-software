@@ -21,6 +21,8 @@ namespace api_ofertar.DTOs
             ErrorMessage = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character")]
         public string Password {get; set;} = String.Empty;
 
+        public int? ChurchId {get; set;}
+
         public List<UserRoleCreateDTO>? Roles {get; set;}
     }
     public class UserUpdateDTO
@@ -34,6 +36,8 @@ namespace api_ofertar.DTOs
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", 
             ErrorMessage = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character")]
         public string Password {get; set;} = String.Empty;
+
+        public int? ChurchId {get; set;}
 
         public List<UserRoleCreateDTO>? Roles {get; set;}
     }

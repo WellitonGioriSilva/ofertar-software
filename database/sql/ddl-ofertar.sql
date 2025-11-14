@@ -6,12 +6,19 @@ CREATE TABLE Role (
     name VARCHAR(50)
 );
 
+CREATE TABLE Church (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
 CREATE TABLE User (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100),
     passwordHash VARCHAR(255),
     name VARCHAR(100),
     recoveryToken VARCHAR(255),
+    church_id INT,
+    FOREIGN KEY (church_id) REFERENCES Church (id) ON DELETE SET NULL,
     UNIQUE (email, name)
 );
 
@@ -50,9 +57,11 @@ CREATE TABLE Tither (
     spouse_id INT,
     profession_id INT,
     address_id INT,
+    church_id INT,
     FOREIGN KEY (spouse_id) REFERENCES Tither (id) ON DELETE SET NULL,
     FOREIGN KEY (profession_id) REFERENCES Profession (id) ON DELETE SET NULL,
-    FOREIGN KEY (address_id) REFERENCES Address (id) ON DELETE RESTRICT
+    FOREIGN KEY (address_id) REFERENCES Address (id) ON DELETE RESTRICT,
+    FOREIGN KEY (church_id) REFERENCES Church (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE Tithe (

@@ -12,6 +12,7 @@ namespace api_ofertar.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Church> Churches { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Profession> Professions { get; set; }
         public DbSet<Tither> Tithers { get; set; }
@@ -29,6 +30,13 @@ namespace api_ofertar.Data
             modelBuilder.Entity<User>()
                 .HasIndex(u => new { u.Email, u.Name })
                 .IsUnique();
+
+            // User -> Church
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Church)
+                .WithMany(c => c.Users)
+                .HasForeignKey(u => u.ChurchId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Tither self-reference
             modelBuilder.Entity<Tither>()
@@ -50,6 +58,13 @@ namespace api_ofertar.Data
                 .WithMany()
                 .HasForeignKey(t => t.AddressId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Tither -> Church
+            modelBuilder.Entity<Tither>()
+                .HasOne(t => t.Church)
+                .WithMany()
+                .HasForeignKey(t => t.ChurchId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Tithe -> Tither
             modelBuilder.Entity<Tithe>()

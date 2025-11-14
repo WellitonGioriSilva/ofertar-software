@@ -23,17 +23,18 @@ namespace api_ofertar.DTOs
         public DateTime? BirthDate { get; set; }
 
         [Required(ErrorMessage = "MaritalStatus is required")]
-        [MaxLength(1, ErrorMessage = "MaritalStatus can't exceed 1 character")]
         public MaritalStatus MaritalStatus { get; set; } = MaritalStatus.Single;
 
         [MaxLength(100, ErrorMessage = "Company can't exceed 100 characters")]
         public string Company { get; set; } = String.Empty;
 
-        public TitherCreateDTO? SpouseId { get; set; }
+        // Nested spouse object to be created together with the tither
+        public TitherCreateDTO? Spouse { get; set; }
 
         public int? ProfessionId { get; set; }
 
-        public AddressCreateDTO? AddressId { get; set; }
+        // Nested address object to be created together with the tither
+        public AddressCreateDTO? Address { get; set; }
     }
     public class TitherUpdateDTO
     {
@@ -48,16 +49,17 @@ namespace api_ofertar.DTOs
 
         public DateTime? BirthDate { get; set; }
 
-        [MaxLength(1, ErrorMessage = "MaritalStatus can't exceed 1 character")]
         public MaritalStatus MaritalStatus { get; set; } = MaritalStatus.Single;
 
         [MaxLength(100, ErrorMessage = "Company can't exceed 100 characters")]
         public string Company { get; set; } = String.Empty;
 
-        public TitherUpdateDTO? SpouseId { get; set; }
+        // Nested spouse object for updates
+        public TitherUpdateDTO? Spouse { get; set; }
 
         public int? ProfessionId { get; set; }
 
-        public AddressUpdateDTO? AddressId { get; set; }
+        // Nested address object for updates
+        public AddressUpdateDTO? Address { get; set; }
     }
 }

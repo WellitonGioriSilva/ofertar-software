@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using api_ofertar.Enums;
 
@@ -17,7 +18,7 @@ namespace api_ofertar.Entities
         public string Phone {get; set;} = String.Empty;
 
         [Column("email")]
-        public string email {get; set;} = String.Empty;
+        public string Email {get; set;} = String.Empty;
 
         [Column("birthDate")]
         public DateTime BirthDate {get; set;}
@@ -35,16 +36,22 @@ namespace api_ofertar.Entities
         public string Name {get; set;} = String.Empty;
 
         [Column("spouse_id")]
-        public int SpouseId {get; set;}
+        public int? SpouseId {get; set;}
         public Tither? Spouse {get; set;}
         
         [Column("profession_id")]
-        public int ProfessionId {get; set;}
+        public int? ProfessionId {get; set;}
         public Profession? Profession {get; set;}
 
         [Column("address_id")]
-        public int AddressId {get; set;}
+        public int? AddressId {get; set;}
         public Address? Address {get; set;}
+
+        [Column("church_id")]
+        public int? ChurchId { get; set; }
+
+        [JsonIgnore]
+        public Church? Church { get; set; }
 
         public ICollection<Tithe> Tithes { get; set; } = new List<Tithe>();
 

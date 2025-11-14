@@ -7,19 +7,16 @@ using System.Threading.Tasks;
 
 namespace api_ofertar.Entities
 {
-    [Table("UserRole")]
-    public class UserRole
+    [Table("Church")]
+    public class Church
     {
         [Column("id")]
         public int Id { get; set; }
 
-        [Column("user_id")] 
-        public int UserId { get; set; }
+        [Column("name")]
+        public string Name { get; set; } = string.Empty;
+
         [JsonIgnore]
-        public User? User { get; set; }
-        
-        [Column("role_id")] 
-        public int RoleId { get; set; }
-        public Role? Role { get; set; }
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
 }
