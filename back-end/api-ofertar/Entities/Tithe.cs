@@ -24,11 +24,11 @@ namespace api_ofertar.Entities
 
         [Column("tither_id")]
         public int TitherId { get; set; }
-        public Tither Tither { get; set; } = null!;
+        public Tither? Tither { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
     }
 
 }

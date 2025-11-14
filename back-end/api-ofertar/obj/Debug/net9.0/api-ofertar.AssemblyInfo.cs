@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("api-ofertar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+092ca9b719c8d64a84560821e9a4d98af486ddfe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f963958bd460aa3bb26b63aa16064e33dd6aeec3")]
 [assembly: System.Reflection.AssemblyProductAttribute("api-ofertar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("api-ofertar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

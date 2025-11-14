@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using api_ofertar.Entities;
+using api_ofertar.Enums;
 
 namespace api_ofertar.Data
 {
@@ -15,10 +16,14 @@ namespace api_ofertar.Data
         public DbSet<Profession> Professions { get; set; }
         public DbSet<Tither> Tithers { get; set; }
         public DbSet<Tithe> Tithes { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Relations
 
             // User
             modelBuilder.Entity<User>()
@@ -59,6 +64,40 @@ namespace api_ofertar.Data
                 .WithMany(u => u.Tithes)
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // UserRole -> User
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            // UserRole -> Role
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Enum settings
+
+            // Enum Marital Status
+            modelBuilder.Entity<Tither>()
+                .Property(t => t.MaritalStatus)
+                .HasConversion(
+                    v => (char)v,
+                    v => (MaritalStatus)v
+                )
+                .HasColumnType("char(1)");
+            
+            // Enum Payment Method
+            modelBuilder.Entity<Tithe>()
+                .Property(t => t.PaymentMethod)
+                .HasConversion(
+                    v => (char)v,
+                    v => (char)(PaymentMethod)v
+                )
+                .HasColumnType("char(1)");
         }
     }    
 }

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6tszHSWIob4=",
+  "dgSpecHash": "pc3Vsn9oNKM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Agilsis\\Desktop\\ofertar-software\\back-end\\api-ofertar\\api-ofertar.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Agilsis\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Agilsis\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.0\\microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
     "C:\\Users\\Agilsis\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\Agilsis\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",

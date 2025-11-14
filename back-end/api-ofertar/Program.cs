@@ -1,3 +1,6 @@
+using api_ofertar.Data;
+using api_ofertar.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +25,16 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+// Register application services
+builder.Services.AddDbContext<DataBaseConfig>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ));
+
+builder.Services.AddScoped<UserService>();
+
 
 var app = builder.Build();
 

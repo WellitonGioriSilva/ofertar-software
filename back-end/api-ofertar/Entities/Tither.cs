@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using api_ofertar.Enums;
 
 namespace api_ofertar.Entities
 {
@@ -22,7 +23,7 @@ namespace api_ofertar.Entities
         public DateTime BirthDate {get; set;}
 
         [Column("maritalStatus")]
-        public char MaritalStatus {get; set;}
+        public MaritalStatus MaritalStatus { get; set; }
 
         [Column("isActive")]
         public bool IsActive {get; set;}
@@ -35,15 +36,15 @@ namespace api_ofertar.Entities
 
         [Column("spouse_id")]
         public int SpouseId {get; set;}
-        public Tither Spouse {get; set;} = new Tither();
-
+        public Tither? Spouse {get; set;}
+        
         [Column("profession_id")]
         public int ProfessionId {get; set;}
-        public Profession Profession {get; set;} = new Profession();
+        public Profession? Profession {get; set;}
 
         [Column("address_id")]
         public int AddressId {get; set;}
-        public Address Address {get; set;} = new Address();
+        public Address? Address {get; set;}
 
         public ICollection<Tithe> Tithes { get; set; } = new List<Tithe>();
 

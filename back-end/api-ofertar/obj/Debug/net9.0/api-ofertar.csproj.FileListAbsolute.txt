@@ -40,3 +40,4 @@ C:\Users\Agilsis\Desktop\ofertar-software\back-end\api-ofertar\bin\Debug\net9.0\
 C:\Users\Agilsis\Desktop\ofertar-software\back-end\api-ofertar\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Agilsis\Desktop\ofertar-software\back-end\api-ofertar\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\Agilsis\Desktop\ofertar-software\back-end\api-ofertar\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\Agilsis\Desktop\ofertar-software\back-end\api-ofertar\bin\Debug\net9.0\BCrypt.Net-Next.dll

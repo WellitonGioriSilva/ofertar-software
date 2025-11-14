@@ -23,6 +23,9 @@ namespace api_ofertar.Entities
 
         [Column("recoveryToken")]
         public string RecoveryToken {get; set;} = String.Empty;
+        
         public ICollection<Tithe> Tithes { get; set; } = new List<Tithe>();
+
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }
