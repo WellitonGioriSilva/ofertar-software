@@ -18,4 +18,9 @@ namespace api_ofertar.DTOs
         [MaxLength(100, ErrorMessage = "Name can't exceed 100 characters")]
         public string Name { get; set; } = String.Empty;
     }
+
+    public class ChurchIsActiveDTO{
+        [Required(ErrorMessage = "IsActive is required")]
+        public bool isActive{get; set;}
+    }
 }

@@ -14,6 +14,7 @@ namespace api_ofertar.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [Authorize(Policy = "ActiveChurch")]
     public class ChurchController : ControllerBase
     {
         private readonly ChurchService _churchService;
@@ -103,6 +104,28 @@ namespace api_ofertar.Controllers
             {
                 await _churchService.DeleteChurchAsync(id);
                 return Ok(ApiResponse<string>.Ok("", message: "Church deleted successfully"));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ApiResponse<object>.Fail(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            }
+        }
+
+        [HttpPatch("{id}/isActive")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<ApiResponse<Church>>> UpdateIsActive(int id, [FromBody] ChurchIsActiveDTO churchIsActiveDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ApiResponse<object>.Fail("Invalid isActive data"));
+
+                var result = await _churchService.UpdateChurchIsActiveAsync(id, churchIsActiveDto.isActive);
+                return Ok(ApiResponse<Church>.Ok(result));
             }
             catch (KeyNotFoundException ex)
             {

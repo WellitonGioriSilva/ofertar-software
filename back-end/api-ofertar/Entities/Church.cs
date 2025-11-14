@@ -16,6 +16,9 @@ namespace api_ofertar.Entities
         [Column("name")]
         public string Name { get; set; } = string.Empty;
 
+        [Column("isActive")]
+        public bool IsActive {get; set;}
+
         [JsonIgnore]
         public ICollection<User> Users { get; set; } = new List<User>();
     }

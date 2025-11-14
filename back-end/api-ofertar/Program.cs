@@ -6,8 +6,19 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using api_ofertar.Authorization.Handlers;
+using api_ofertar.Authorization.Requirements;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ActiveChurch", policy =>
+        policy.Requirements.Add(new ActiveChurchRequirement()));
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, ActiveChurchHandler>();
 
 // Add necessary services
 builder.Services.AddControllers()

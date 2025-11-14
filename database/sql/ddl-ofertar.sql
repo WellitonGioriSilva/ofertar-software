@@ -8,7 +8,8 @@ CREATE TABLE Role (
 
 CREATE TABLE Church (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100)
+    name VARCHAR(100),
+    isActive BOOLEAN
 );
 
 CREATE TABLE User (

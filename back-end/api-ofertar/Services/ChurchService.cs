@@ -37,7 +37,8 @@ namespace api_ofertar.Services
         {
             var church = new Church
             {
-                Name = churchDto.Name
+                Name = churchDto.Name,
+                IsActive = true
             };
             
             _dbContext.Churches.Add(church);
@@ -62,6 +63,23 @@ namespace api_ofertar.Services
             var church = await GetChurchByIdAsync(id);
             _dbContext.Churches.Remove(church);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Church> UpdateChurchIsActiveAsync(int id, bool isActive)
+        {
+            var church = await GetChurchByIdAsync(id);
+            
+            church.IsActive = isActive;
+            _dbContext.Churches.Update(church);
+            await _dbContext.SaveChangesAsync();
+            
+            return church;
+        }
+
+        public async Task<bool> IsChurchActiveAsync(int id)
+        {
+            var church = await GetChurchByIdAsync(id);
+            return church.IsActive;
         }
     }
 }

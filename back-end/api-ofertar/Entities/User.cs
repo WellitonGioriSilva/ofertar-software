@@ -23,7 +23,7 @@ namespace api_ofertar.Entities
         public string Name {get; set;} = String.Empty;
 
         [Column("recoveryToken")]
-        public string RecoveryToken {get; set;} = String.Empty;
+        public string? RecoveryToken {get; set;} = String.Empty;
 
         [Column("church_id")]
         public int? ChurchId { get; set; }
