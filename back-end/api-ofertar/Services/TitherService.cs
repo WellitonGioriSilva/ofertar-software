@@ -28,13 +28,13 @@ namespace api_ofertar.Services
                 .ToListAsync();
         }
 
-        public async Task<Tither> GetTitherByIdAsync(int id)
+        public async Task<Tither> GetTitherByIdAsync(int id, int churchId)
         {
             var tither = await _dbContext.Tithers
                 .Include(t => t.Profession)
                 .Include(t => t.Address)
                 .Include(t => t.Church)
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(t => t.Id == id && t.ChurchId == churchId);
 
             if (tither == null)
                 throw new KeyNotFoundException($"Tither with id {id} not found.");
@@ -127,7 +127,7 @@ namespace api_ofertar.Services
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
             try
             {
-                var existing = await GetTitherByIdAsync(id);
+                var existing = await GetTitherByIdAsync(id, churchId);
 
                 existing.Name = titherDto.Name ?? existing.Name;
                 existing.Phone = titherDto.Phone ?? existing.Phone;
@@ -252,9 +252,9 @@ namespace api_ofertar.Services
             }
         }
 
-        public async Task DeleteTitherAsync(int id)
+        public async Task DeleteTitherAsync(int id, int churchId)
         {
-            var tither = await GetTitherByIdAsync(id);
+            var tither = await GetTitherByIdAsync(id, churchId);
 
             _dbContext.Tithers.Remove(tither);
             await _dbContext.SaveChangesAsync();

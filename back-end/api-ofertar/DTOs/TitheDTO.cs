@@ -19,6 +19,9 @@ namespace api_ofertar.DTOs
         [Required(ErrorMessage = "PaymentMethod is required")]
         [MaxLength(1, ErrorMessage = "PaymentMethod can't exceed 1 character")]
         public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.Cash;
+
+        [Required(ErrorMessage = "TitherId is required")]
+        public int TitherId { get; set; }
     }
     public class TitheUpdateDTO
     {
@@ -29,5 +32,7 @@ namespace api_ofertar.DTOs
 
         [MaxLength(1, ErrorMessage = "PaymentMethod can't exceed 1 character")]
         public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.Cash;
+
+        public int TitherId { get; set; }
     }
 }

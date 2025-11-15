@@ -1529,23 +1529,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\2024102060009\\.nuget\\packages\\": {},
+    "C:\\Users\\giori\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2024102060009\\Desktop\\ofertar-software\\back-end\\api-ofertar\\api-ofertar.csproj",
+      "projectUniqueName": "C:\\Users\\giori\\OneDrive\\Área de Trabalho\\ofertar-software\\back-end\\api-ofertar\\api-ofertar.csproj",
       "projectName": "api-ofertar",
-      "projectPath": "C:\\Users\\2024102060009\\Desktop\\ofertar-software\\back-end\\api-ofertar\\api-ofertar.csproj",
-      "packagesPath": "C:\\Users\\2024102060009\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\2024102060009\\Desktop\\ofertar-software\\back-end\\api-ofertar\\obj\\",
+      "projectPath": "C:\\Users\\giori\\OneDrive\\Área de Trabalho\\ofertar-software\\back-end\\api-ofertar\\api-ofertar.csproj",
+      "packagesPath": "C:\\Users\\giori\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\giori\\OneDrive\\Área de Trabalho\\ofertar-software\\back-end\\api-ofertar\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\2024102060009\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\giori\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1623,7 +1623,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
